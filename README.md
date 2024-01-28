@@ -1,3 +1,5 @@
+
+tested on postman
 api for products
 http://127.0.0.1:8000/api/v1/products/#
 
@@ -16,12 +18,7 @@ sampel json
             "price": 29.99,
             "quantity": 100
         },
-        {
-            "id": "65b696ec37f782537265db41",
-            "name": "Product Name",
-            "price": 29.99,
-            "quantity": 100
-        },
+       
         {
             "id": "65b696c296c66b98d195dd22",
             "name": "Product Name",
@@ -35,4 +32,19 @@ sampel json
         "prevOffset": null,
         "total": 4
     }
+}
+
+
+for post call of orders
+body
+
+{
+  "items": [{"productId":"65b696c296c66b98d195dd22","boughtQuantity":2}],
+  "userAddress": {"city":"abc","zipCode":"random","country":"india"}
+
+}
+
+output
+{
+    "orderId":"65b696ec37f782537265db41"
 }
