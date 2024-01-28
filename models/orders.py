@@ -5,7 +5,7 @@ from datetime import datetime
 class OrderItem(BaseModel):
     productId: str
     boughtQuantity: int
-    totalAmount: float
+
 
 class UserAddress(BaseModel):
     city: str
@@ -16,3 +16,4 @@ class Order(BaseModel):
     items: List[OrderItem]
     userAddress: UserAddress
     createdOn: datetime = datetime.utcnow()
+    totalAmount: float

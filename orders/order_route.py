@@ -15,19 +15,21 @@ app = APIRouter()
 async def create_order(order: Order):
     if not order.items:
         return JSONResponse(content={"detail": "Order items is empty"}, status_code=400)
+    totalAmount=0.0
     for item in order.items:
         try:
             product = products_collection.find_one({"_id": item.productId})
             if not product or item.boughtQuantity <= 0:
                 raise ValidationError([{"loc": ["body"], "msg": "Invalid product or quantity", "type": "value_error"}])
+            else:
+                totalAmount+=item.boughtQuantity*product.price
         except ValidationError as e:
             raise HTTPException(status_code=400, detail=str(e)) 
     order_data = {
         "items": [
             {
                 "productId": item.productId,
-                "boughtQuantity": item.boughtQuantity,
-                "totalAmount": item.totalAmount,
+                "boughtQuantity": item.boughtQuantity
             }
             for item in order.items
         ],
@@ -36,6 +38,7 @@ async def create_order(order: Order):
             "country": order.userAddress.country,
             "zipCode": order.userAddress.zipCode,
         },
+        "totalAmount":totalAmount
     }
 
     result = orders_collection.insert_one(order_data)
